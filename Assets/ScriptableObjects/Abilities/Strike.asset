@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d6683eeeee2eec48aef69b525c507fd, type: 3}
+  m_Name: Strike
+  m_EditorClassIdentifier: 
+  Name: STRIKE
+  Description: Damages opponent with strong jab to the kindeys
+  Power: 10
+  effect: {fileID: 11400000, guid: 818d17d19992951479de5ae3b8b8dc87, type: 2}
