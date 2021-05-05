@@ -19,32 +19,28 @@ namespace TurnBasedRPG
         private const string openingColourDelimeter = "<color=#FFFFFF00>";
         private const string closingColourDelimeter = "</color>";
 
-        private string text;
-
         public string Text
         {
             set => StartCoroutine(SetText(value));
         }
 
-        public IEnumerator SetText(string value, float endDelay = 0f)
+        public IEnumerator SetText(string text, float endDelay = 0f)
         {
-            text = value;
-            int printedCharacterCount = 0;
+            int count = 0;
 
-            do
+            while (count <= text.Length)
             {
-                textComponent.text = text.Substring(0, printedCharacterCount) + openingColourDelimeter + text.Substring(printedCharacterCount) + closingColourDelimeter;
+                textComponent.text = text.Substring(0, count) + openingColourDelimeter + text.Substring(count) + closingColourDelimeter;
 
-                if (text.Substring(printedCharacterCount).ToCharArray().Length > 0)
+                if (text.Substring(count).ToCharArray().Length > 0)
                 {
-                    char currentCharacter = text.Substring(printedCharacterCount).ToCharArray()[0];
+                    char currentCharacter = text.Substring(count).ToCharArray()[0];
 
                     yield return new WaitForSeconds(GetDelay(currentCharacter));
                 }
 
-                printedCharacterCount++;
+                count++;
             }
-            while (printedCharacterCount <= text.Length);
 
             if (endDelay > 0)
             {

@@ -12,12 +12,12 @@ namespace TurnBasedRPG
     {
         [SerializeField] private Typewriter typewriter;
 
-        [SerializeField] private string text;
+        [SerializeField] private string description;
 
         public override void OnSelect(BaseEventData eventData)
         {
             typewriter.Stop();
-            typewriter.Text = text;
+            typewriter.Text = description;
         }
     }
 }

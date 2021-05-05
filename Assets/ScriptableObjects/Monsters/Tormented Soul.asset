@@ -19,4 +19,4 @@ MonoBehaviour:
   Speed: 5
   Abilities:
   - {fileID: 11400000, guid: 008eafd11af8d074fbd0bfb85f9409c7, type: 2}
-  Sprite: {fileID: 21300000, guid: 4cf7ef06fc3e5a14b9329cca7dd73343, type: 3}
+  Sprite: {fileID: -1521023215305649607, guid: d40d0b84ba53d0c478f32a78ab36e234, type: 3}

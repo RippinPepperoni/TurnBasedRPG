@@ -14,6 +14,11 @@ namespace TurnBasedRPG
             _handlers = new List<Action>();
         }
 
+        public Event(Action handler) : this()
+        {
+            AddHandler(handler);
+        }
+
         public void AddHandler(Action handler)
         {
             _handlers.Add(handler);

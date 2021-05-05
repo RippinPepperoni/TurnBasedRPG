@@ -19,10 +19,10 @@ namespace TurnBasedRPG
 
         public override void Initialise()
         {
-            BindListeners();
+            AddListeners();
         }
 
-        private void BindListeners()
+        private void AddListeners()
         {
             attackButton.onClick.AddListener(() => OnAttackClick.Raise());
             talkButton.onClick.AddListener(() => OnTalkClick.Raise());

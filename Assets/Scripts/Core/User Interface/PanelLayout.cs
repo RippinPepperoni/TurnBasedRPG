@@ -44,7 +44,7 @@ namespace TurnBasedRPG
             return null;
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
             if (currentPanel != null)
             {
@@ -52,7 +52,7 @@ namespace TurnBasedRPG
             }
         }
 
-        public void Show()
+        public virtual void Show()
         {
             if (currentPanel != null)
             {

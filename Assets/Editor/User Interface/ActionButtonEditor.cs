@@ -17,7 +17,7 @@ namespace TurnBasedRPG.Editor
             base.OnEnable();
 
             typewriterProperty = serializedObject.FindProperty("typewriter");
-            textProperty = serializedObject.FindProperty("text");
+            textProperty = serializedObject.FindProperty("description");
         }
 
         public override void OnInspectorGUI()

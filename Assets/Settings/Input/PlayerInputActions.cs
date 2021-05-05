@@ -15,14 +15,22 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     ""name"": ""PlayerInputActions"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""Explore"",
             ""id"": ""2a485cb0-501e-410b-aac8-0a8a33339065"",
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""7afccd7d-e628-407a-aa35-3be2285fc84c"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""26026a4f-321a-4ac9-8ba3-e364a7b5faae"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -137,11 +145,49 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9158837d-3b49-49c3-af6b-bc4a73d2e2da"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""UI"",
+            ""name"": ""Interact"",
+            ""id"": ""5d8ed27b-d7dc-4531-b963-9cf57ee44b88"",
+            ""actions"": [
+                {
+                    ""name"": ""Continue"",
+                    ""type"": ""Button"",
+                    ""id"": ""bdc33423-c2ab-4694-872f-f957fc9e408b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""c3ddd0d1-1e28-4d71-be77-be72be70cb57"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Continue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Combat"",
             ""id"": ""cc281bfd-928e-44b1-aae3-db9a74cc303d"",
             ""actions"": [
                 {
@@ -615,16 +661,20 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         }
     ]
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        // UI
-        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
-        m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
-        m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
-        m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
-        m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
+        // Explore
+        m_Explore = asset.FindActionMap("Explore", throwIfNotFound: true);
+        m_Explore_Move = m_Explore.FindAction("Move", throwIfNotFound: true);
+        m_Explore_Interact = m_Explore.FindAction("Interact", throwIfNotFound: true);
+        // Interact
+        m_Interact = asset.FindActionMap("Interact", throwIfNotFound: true);
+        m_Interact_Continue = m_Interact.FindAction("Continue", throwIfNotFound: true);
+        // Combat
+        m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
+        m_Combat_Navigate = m_Combat.FindAction("Navigate", throwIfNotFound: true);
+        m_Combat_Submit = m_Combat.FindAction("Submit", throwIfNotFound: true);
+        m_Combat_Cancel = m_Combat.FindAction("Cancel", throwIfNotFound: true);
+        m_Combat_Point = m_Combat.FindAction("Point", throwIfNotFound: true);
+        m_Combat_Click = m_Combat.FindAction("Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -671,82 +721,123 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
-    public struct PlayerActions
+    // Explore
+    private readonly InputActionMap m_Explore;
+    private IExploreActions m_ExploreActionsCallbackInterface;
+    private readonly InputAction m_Explore_Move;
+    private readonly InputAction m_Explore_Interact;
+    public struct ExploreActions
     {
         private @PlayerInputActions m_Wrapper;
-        public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public ExploreActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Explore_Move;
+        public InputAction @Interact => m_Wrapper.m_Explore_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_Explore; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerActions instance)
+        public static implicit operator InputActionMap(ExploreActions set) { return set.Get(); }
+        public void SetCallbacks(IExploreActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
+            if (m_Wrapper.m_ExploreActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.started -= m_Wrapper.m_ExploreActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_ExploreActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_ExploreActionsCallbackInterface.OnMove;
+                @Interact.started -= m_Wrapper.m_ExploreActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_ExploreActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_ExploreActionsCallbackInterface.OnInteract;
             }
-            m_Wrapper.m_PlayerActionsCallbackInterface = instance;
+            m_Wrapper.m_ExploreActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+    public ExploreActions @Explore => new ExploreActions(this);
 
-    // UI
-    private readonly InputActionMap m_UI;
-    private IUIActions m_UIActionsCallbackInterface;
-    private readonly InputAction m_UI_Navigate;
-    private readonly InputAction m_UI_Submit;
-    private readonly InputAction m_UI_Cancel;
-    private readonly InputAction m_UI_Point;
-    private readonly InputAction m_UI_Click;
-    public struct UIActions
+    // Interact
+    private readonly InputActionMap m_Interact;
+    private IInteractActions m_InteractActionsCallbackInterface;
+    private readonly InputAction m_Interact_Continue;
+    public struct InteractActions
     {
         private @PlayerInputActions m_Wrapper;
-        public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
-        public InputAction @Submit => m_Wrapper.m_UI_Submit;
-        public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
-        public InputAction @Point => m_Wrapper.m_UI_Point;
-        public InputAction @Click => m_Wrapper.m_UI_Click;
-        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public InteractActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Continue => m_Wrapper.m_Interact_Continue;
+        public InputActionMap Get() { return m_Wrapper.m_Interact; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
-        public void SetCallbacks(IUIActions instance)
+        public static implicit operator InputActionMap(InteractActions set) { return set.Get(); }
+        public void SetCallbacks(IInteractActions instance)
         {
-            if (m_Wrapper.m_UIActionsCallbackInterface != null)
+            if (m_Wrapper.m_InteractActionsCallbackInterface != null)
             {
-                @Navigate.started -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
-                @Navigate.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
-                @Navigate.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
-                @Submit.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
-                @Submit.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
-                @Submit.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
-                @Cancel.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
-                @Cancel.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
-                @Cancel.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCancel;
-                @Point.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPoint;
-                @Point.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPoint;
-                @Point.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPoint;
-                @Click.started -= m_Wrapper.m_UIActionsCallbackInterface.OnClick;
-                @Click.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnClick;
-                @Click.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnClick;
+                @Continue.started -= m_Wrapper.m_InteractActionsCallbackInterface.OnContinue;
+                @Continue.performed -= m_Wrapper.m_InteractActionsCallbackInterface.OnContinue;
+                @Continue.canceled -= m_Wrapper.m_InteractActionsCallbackInterface.OnContinue;
             }
-            m_Wrapper.m_UIActionsCallbackInterface = instance;
+            m_Wrapper.m_InteractActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Continue.started += instance.OnContinue;
+                @Continue.performed += instance.OnContinue;
+                @Continue.canceled += instance.OnContinue;
+            }
+        }
+    }
+    public InteractActions @Interact => new InteractActions(this);
+
+    // Combat
+    private readonly InputActionMap m_Combat;
+    private ICombatActions m_CombatActionsCallbackInterface;
+    private readonly InputAction m_Combat_Navigate;
+    private readonly InputAction m_Combat_Submit;
+    private readonly InputAction m_Combat_Cancel;
+    private readonly InputAction m_Combat_Point;
+    private readonly InputAction m_Combat_Click;
+    public struct CombatActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public CombatActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Navigate => m_Wrapper.m_Combat_Navigate;
+        public InputAction @Submit => m_Wrapper.m_Combat_Submit;
+        public InputAction @Cancel => m_Wrapper.m_Combat_Cancel;
+        public InputAction @Point => m_Wrapper.m_Combat_Point;
+        public InputAction @Click => m_Wrapper.m_Combat_Click;
+        public InputActionMap Get() { return m_Wrapper.m_Combat; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CombatActions set) { return set.Get(); }
+        public void SetCallbacks(ICombatActions instance)
+        {
+            if (m_Wrapper.m_CombatActionsCallbackInterface != null)
+            {
+                @Navigate.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnNavigate;
+                @Navigate.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnNavigate;
+                @Navigate.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnNavigate;
+                @Submit.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnSubmit;
+                @Submit.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnSubmit;
+                @Submit.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnSubmit;
+                @Cancel.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnCancel;
+                @Point.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnPoint;
+                @Point.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnPoint;
+                @Point.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnPoint;
+                @Click.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnClick;
+                @Click.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnClick;
+                @Click.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnClick;
+            }
+            m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Navigate.started += instance.OnNavigate;
@@ -767,7 +858,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
             }
         }
     }
-    public UIActions @UI => new UIActions(this);
+    public CombatActions @Combat => new CombatActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -813,11 +904,16 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_XRSchemeIndex];
         }
     }
-    public interface IPlayerActions
+    public interface IExploreActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
-    public interface IUIActions
+    public interface IInteractActions
+    {
+        void OnContinue(InputAction.CallbackContext context);
+    }
+    public interface ICombatActions
     {
         void OnNavigate(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);

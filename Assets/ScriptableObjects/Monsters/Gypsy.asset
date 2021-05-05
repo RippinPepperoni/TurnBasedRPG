@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea62fd6f5abff2041b3075ec5b14aa2e, type: 3}
+  m_Name: Gypsy
+  m_EditorClassIdentifier: 
+  Name: GYPSY
+  Health: 68
+  Attack: 53
+  Defence: 40
+  Speed: 47
+  Abilities:
+  - {fileID: 11400000, guid: 008eafd11af8d074fbd0bfb85f9409c7, type: 2}
+  Sprite: {fileID: 6644657769282186931, guid: d40d0b84ba53d0c478f32a78ab36e234, type: 3}

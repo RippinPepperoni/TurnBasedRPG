@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TurnBasedRPG
 {
-    public class EntitySystem : ISystem
+    public abstract class EntitySystem : ISystem
     {
         public Filter Filter { get; protected set; }
 

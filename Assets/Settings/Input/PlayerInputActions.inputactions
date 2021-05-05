@@ -2,14 +2,22 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "Player",
+            "name": "Explore",
             "id": "2a485cb0-501e-410b-aac8-0a8a33339065",
             "actions": [
                 {
                     "name": "Move",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "7afccd7d-e628-407a-aa35-3be2285fc84c",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "26026a4f-321a-4ac9-8ba3-e364a7b5faae",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -124,11 +132,49 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "9158837d-3b49-49c3-af6b-bc4a73d2e2da",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "UI",
+            "name": "Interact",
+            "id": "5d8ed27b-d7dc-4531-b963-9cf57ee44b88",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "type": "Button",
+                    "id": "bdc33423-c2ab-4694-872f-f957fc9e408b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c3ddd0d1-1e28-4d71-be77-be72be70cb57",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Continue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Combat",
             "id": "cc281bfd-928e-44b1-aae3-db9a74cc303d",
             "actions": [
                 {

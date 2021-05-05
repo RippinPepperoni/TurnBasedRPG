@@ -12,21 +12,18 @@ namespace TurnBasedRPG
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Bootstrap()
         {
-            Register(typeof(PersistantDataSystem));
+            Register(typeof(PersistantDataSystem), typeof(SceneManagementSystem), typeof(InputSystem));
         }
 
         private static void Register(params Type[] typesOf)
         {
             for (int i = 0; i < typesOf.Length; i++)
             {
-                var instance = Activator.CreateInstance(typesOf[i]);
+                var system = Activator.CreateInstance(typesOf[i]) as ISystem;
 
-                if (instance is ISystem)
-                {
-                    var system = instance as ISystem;
-                    system.Initialise();
-                    _systems.Add(system.Filter, system);
-                }
+                system.Initialise();
+
+                _systems.Add(system.Filter, system);
             }
         }
 

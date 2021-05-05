@@ -37,14 +37,14 @@ namespace TurnBasedRPG
     {
         public bool Add(IEntity entity)
         {
-            return Add(entity, out var component1, out var component2);
+            return Add(entity, out var componentOne, out var componentTwo);
         }
 
-        public bool Add(IEntity entity, out T1 component1, out T2 component2)
+        public bool Add(IEntity entity, out T1 componentOne, out T2 componentTwo)
         {
-            if (entity.HasComponent(out component1, out component2))
+            if (entity.HasComponent(out componentOne, out componentTwo))
             {
-                Add((component1, component2));
+                Add((componentOne, componentTwo));
                 return true;
             }
 
@@ -53,12 +53,12 @@ namespace TurnBasedRPG
 
         public bool Remove(IEntity entity)
         {
-            return Remove(entity, out var component1, out var component2);
+            return Remove(entity, out var componentOne, out var componentTwo);
         }
 
-        public bool Remove(IEntity entity, out T1 component1, out T2 component2)
+        public bool Remove(IEntity entity, out T1 componentOne, out T2 componentTwo)
         {
-            return entity.HasComponent(out component1, out component2) && Remove((component1, component2));
+            return entity.HasComponent(out componentOne, out componentTwo) && Remove((componentOne, componentTwo));
         }
     }
 }

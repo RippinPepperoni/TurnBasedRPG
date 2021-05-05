@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace TurnBasedRPG
 {
@@ -14,6 +13,7 @@ namespace TurnBasedRPG
     public class GameController : Singleton<GameController>
     {
         private PersistantDataSystem _dataSystem;
+        private SceneManagementSystem _sceneSystem;
 
         private readonly Stack<IGameMode> _modes = new Stack<IGameMode>();
         private IGameMode _currentGameMode => _modes.Peek();
@@ -25,6 +25,7 @@ namespace TurnBasedRPG
             base.Awake();
 
             _dataSystem = App.GetSystem<PersistantDataSystem>();
+            _sceneSystem = App.GetSystem<SceneManagementSystem>();
         }
 
         private void Start()
@@ -68,7 +69,7 @@ namespace TurnBasedRPG
 
                 _currentGameMode.OnExit();
 
-                yield return SceneManager.UnloadSceneAsync(_currentGameMode.SceneName);
+                yield return _sceneSystem.UnloadAllScenes();
             }
 
             if (mode != null)
@@ -80,7 +81,7 @@ namespace TurnBasedRPG
                 _modes.Pop();
             }
 
-            yield return SceneManager.LoadSceneAsync(_currentGameMode.SceneName, LoadSceneMode.Additive);
+            yield return _sceneSystem.LoadScene(_currentGameMode.SceneName);
 
             _dataSystem.LoadAllDataInternal();
 

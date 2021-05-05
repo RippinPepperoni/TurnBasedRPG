@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TurnBasedRPG
 {
-    public class State<T> : IState<T>
+    public abstract class State<T> : IState<T>
     {
         public T UniqueID { get; }
 

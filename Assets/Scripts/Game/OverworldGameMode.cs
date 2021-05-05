@@ -8,6 +8,11 @@ namespace TurnBasedRPG
     {
         public string SceneName => GameMode.Overworld.ToString();
 
+        public OverworldGameMode()
+        {
+
+        }
+
         public void OnEnter()
         {
             

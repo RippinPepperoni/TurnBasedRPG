@@ -17,7 +17,6 @@ namespace TurnBasedRPG
 
         public override void OnEnter()
         {
-            Debug.Log("On wait enter called");
             _combatPanelLayout.Change<ActionPanel>();
         }
 

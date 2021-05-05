@@ -24,9 +24,6 @@ namespace TurnBasedRPG
         protected override void Awake()
         {
             base.Awake();
-
-            Debug.Log("Awake");
-
             material = Instance.GetComponentInChildren<Image>().material;
         }
 
